@@ -1,0 +1,25 @@
+nIntent turn on
+TurnOnIntent power on
+TurnOnIntent on
+
+TurnOffIntent turn off
+TurnOffIntent power off
+TurnOffIntent off
+
+SwitchScene switch to scene {Scene}
+SwitchScene switch scene to {Scene}
+SwitchScene scene {Scene}
+
+ChangeInput change to {Input}
+ChangeInput change input to {Input}
+ChangeInput switch input to {Input}
+ChangeInput input {Input}
+ChangeInput {Input}
+
+ChangeVolume volume {Volume}
+ChangeVolume change volume to {Volume}
+ChangeVolume adjust volume to {Volume}
+ChangeVolume set volume {Volume}
+ChangeVolume set volume to {Volume}
+ChangeVolume set the volume to {Volume}
+

@@ -1,0 +1,37 @@
+{
+  "intents": [
+    {
+      "intent": "TurnOnIntent"
+    },
+    {
+      "intent": "TurnOffIntent"
+    },
+    {
+      "intent": "SwitchScene",
+      "slots": [
+        {
+          "name": "Scene",
+          "type": "AMAZON.NUMBER"
+        }
+      ]
+    },
+    {
+      "intent": "ChangeInput",
+      "slots": [
+        {
+          "name": "Input",
+          "type": "INPUT"
+        }
+      ]
+    },
+    {
+      "intent": "ChangeVolume",
+      "slots": [
+        {
+          "name": "Volume",
+          "type": "AMAZON.NUMBER"
+        }
+      ]
+    }
+  ]
+}
