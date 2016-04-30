@@ -1,0 +1,12 @@
+HDMI1
+HDMI2
+HDMI3
+HDMI4
+HDMI5
+Bluetooth
+Chromecast
+Pandora
+Wii
+Wii U
+PC
+Computer
