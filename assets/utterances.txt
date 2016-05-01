@@ -14,6 +14,7 @@ ChangeInput change to {Input}
 ChangeInput change input to {Input}
 ChangeInput switch input to {Input}
 ChangeInput input {Input}
+ChangeInput switch to {Input}
 ChangeInput {Input}
 
 ChangeVolume volume {Volume}
