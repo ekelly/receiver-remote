@@ -1,4 +1,4 @@
-nIntent turn on
+TurnOnIntent turn on
 TurnOnIntent power on
 TurnOnIntent on
 
@@ -25,3 +25,16 @@ ChangeVolume set volume {Volume}
 ChangeVolume set volume to {Volume}
 ChangeVolume set the volume to {Volume}
 
+IncreaseVolume turn up the volume
+IncreaseVolume turn up volume
+IncreaseVolume increase the volume
+IncreaseVolume increase volume
+IncreaseVolume up volume
+IncreaseVolume volume up
+
+DecreaseVolume turn down the volume
+DecreaseVolume turn down volume
+DecreaseVolume decrease the volume
+DecreaseVolume decrease volume
+DecreaseVolume down volume
+DecreaseVolume volume down

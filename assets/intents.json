@@ -32,6 +32,12 @@
           "type": "AMAZON.NUMBER"
         }
       ]
+    },
+    {
+      "intent": "IncreaseVolume"
+    },
+    {
+      "intent": "DecreaseVolume"
     }
   ]
 }
