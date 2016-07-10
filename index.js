@@ -34,9 +34,7 @@ const POWER_DATA = "<YAMAHA_AV cmd=\"PUT\"><Main_Zone>" +
               "</YAMAHA_AV>\nName\n";
 
 const GET_STATUS = "<YAMAHA_AV cmd=\"GET\"><Main_Zone><Basic_Status>GetParam" +
-                   "</Basic_Status></Main_Zone></YAMAHA_AV>\nName\n"
-
-<YAMAHA_AV rsp="GET" RC="0"><Main_Zone><Basic_Status><Power_Control><Power>On</Power><Sleep>Off</Sleep></Power_Control><Volume><Lvl><Val>-220</Val><Exp>1</Exp><Unit>dB</Unit></Lvl><Mute>Off</Mute><Subwoofer_Trim><Val>0</Val><Exp>1</Exp><Unit>dB</Unit></Subwoofer_Trim></Volume><Input><Input_Sel>HDMI1</Input_Sel><Input_Sel_Item_Info><Param>HDMI1</Param><RW>RW</RW><Title>HDMI1</Title><Icon><On>/YamahaRemoteControl/Icons/icon004.png</On><Off></Off></Icon><Src_Name></Src_Name><Src_Number>1</Src_Number></Input_Sel_Item_Info></Input><Surround><Program_Sel><Current><Straight>Off</Straight><Enhancer>Off</Enhancer><Sound_Program>Standard</Sound_Program></Current></Program_Sel><_3D_Cinema_DSP>Auto</_3D_Cinema_DSP></Surround><Party_Info>Off</Party_Info><Sound_Video><Tone><Bass><Val>0</Val><Exp>1</Exp><Unit>dB</Unit></Bass><Treble><Val>0</Val><Exp>1</Exp><Unit>dB</Unit></Treble></Tone><Pure_Direct><Mode>Off</Mode></Pure_Direct><HDMI><Standby_Through_Info>Off</Standby_Through_Info><Output><OUT_1>On</OUT_1></Output></HDMI><YPAO_Volume>Auto</YPAO_Volume><Extra_Bass>Off</Extra_Bass><Adaptive_DRC>Off</Adaptive_DRC><Dialogue_Adjust><Dialogue_Lift>0</Dialogue_Lift><Dialogue_Lvl>0</Dialogue_Lvl></Dialogue_Adjust></Sound_Video></Basic_Status></Main_Zone></YAMAHA_AV>
+                   "</Basic_Status></Main_Zone></YAMAHA_AV>\nName\n";
 
 const inputMapping = {
     "bluetooth": "Bluetooth",
@@ -129,12 +127,12 @@ ReceiverRemote.prototype.intentHandlers = {
     },
     "IncreaseVolume": function (intent, session, response) {
         getVolume(function(volume) {
-          setVolume(math.min(volume + 5, 100), response, "");
+          setVolume(Math.min(volume + 10, 100), response, "Done");
         });
     },
     "DecreaseVolume": function (intent, session, response) {
         getVolume(function(volume) {
-          setVolume(math.max(volume - 5, 0), response, "");
+          setVolume(Math.max(volume - 10, 0), response, "Done");
         });
     },
     "AMAZON.HelpIntent": function (intent, session, response) {
@@ -163,9 +161,9 @@ function getVolume(callback) {
     });
     res.on('end', function () {
       var re = /<Volume>.*<Lvl>.*<Val>(\-?\d+)<\/Val>.*<\/Lvl>.*<\/Volume>/;
-      var decibel_level = re.exec(data)[1];
+      var decibel_level = parseInt(re.exec(data)[1]);
       console.log("Current volume: " + decibel_level + "db");
-      var volume = 800 + Math.floor(decibel_lebel * 5/8) / 5;
+      var volume = Math.ceil(((decibel_level + 800) * 5/8) / 5);
       console.log("Current volume: " + volume + "%");
       callback(volume);
     });
@@ -197,6 +195,7 @@ function switchScene(scene, response, successText) {
 function setVolume(volumePercentage, response, successText) {
   var volume = -800 + Math.ceil(volumePercentage * 8/5) * 5;
   var data = util.format(CHNGE_VOLUME, volume);
+  console.log("Setting volume to " + volume);
   sendCommand(data, response, successText);
 }
 
