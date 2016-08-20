@@ -10,3 +10,6 @@ Wii
 Wii U
 PC
 Computer
+Bluray
+DVD
+Movie

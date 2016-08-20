@@ -44,11 +44,14 @@ const inputMapping = {
     "hdmi3": "HDMI3",
     "hdmi4": "HDMI4",
     "hdmi5": "HDMI5",
-    "pc": "HDMI1",
-    "computer": "HDMI1",
+    "pc": "HDMI5",
+    "computer": "HDMI5",
     "chromecast": "HDMI2",
     "wii u": "HDMI3",
-    "wii": "HDMI4"
+    "wii": "HDMI4",
+    "bluray": "HDMI1",
+    "dvd": "HDMI1",
+    "movie": "HDMI1"
 };
 
 const powerMapping = {
@@ -113,6 +116,7 @@ ReceiverRemote.prototype.intentHandlers = {
     },
     "ChangeInput": function (intent, session, response) {
         var input = intent.slots.Input;
+        console.log("Input: " + input.value);
         switchInput(input.value, response, "Changing input to " + input.value);
     },
     "ChangeVolume": function (intent, session, response) {
