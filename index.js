@@ -99,10 +99,10 @@ ReceiverRemote.prototype.eventHandlers.onSessionEnded = function (sessionEndedRe
 ReceiverRemote.prototype.intentHandlers = {
     // register custom intent handlers
     "TurnOnIntent": function (intent, session, response) {
-        power("on", response, "Turning receiver on");
+        power("on", response, respondSuccess("Turning receiver on"));
     },
     "TurnOffIntent": function (intent, session, response) {
-        power("off", response, "Turning receiver off");
+        power("off", response, respondSuccess("Turning receiver off"));
     },
     "SwitchScene": function (intent, session, response) {
         var sceneSlot = intent.slots.Scene,
@@ -112,12 +112,19 @@ ReceiverRemote.prototype.intentHandlers = {
             response.ask("Sorry, please select a valid scene");
             return;
         }
-        switchScene(sceneNum, response, "Switching scene to " + sceneNum);
+        switchScene(sceneNum, response, respondSuccess("Switching scene to " + sceneNum));
+    },
+    "StartInput": function (intent, session, response) {
+        var input = intent.slots.Input;
+        console.log("Input: " + input.value);
+        power("on", response, function(response) {
+          switchInput(input.value, response, respondSuccess("Starting " + input.value));
+        });
     },
     "ChangeInput": function (intent, session, response) {
         var input = intent.slots.Input;
         console.log("Input: " + input.value);
-        switchInput(input.value, response, "Changing input to " + input.value);
+        switchInput(input.value, response, respondSuccess("Changing input to " + input.value));
     },
     "ChangeVolume": function (intent, session, response) {
         var volume = intent.slots.Volume,
@@ -127,23 +134,30 @@ ReceiverRemote.prototype.intentHandlers = {
             response.ask("Sorry, what volume?");
             return;
         }
-        setVolume(volumeNum, response, "Setting volume to " + volumeNum);
+        setVolume(volumeNum, response, respondSuccess("Setting volume to " + volumeNum));
     },
     "IncreaseVolume": function (intent, session, response) {
         getVolume(function(volume) {
-          setVolume(Math.min(volume + 10, 100), response, "Done");
+          setVolume(Math.min(volume + 10, 100), response, respondSuccess("Done"));
         });
     },
     "DecreaseVolume": function (intent, session, response) {
         getVolume(function(volume) {
-          setVolume(Math.max(volume - 10, 0), response, "Done");
+          setVolume(Math.max(volume - 10, 0), response, respondSuccess("Done"));
         });
     },
     "AMAZON.HelpIntent": function (intent, session, response) {
         response.tell("You can say adjust my power and control my input!",
                       "You can say adjust my power and control my input!");
     }
+
 };
+// Generates a response callback function for a successful action
+function respondSuccess(successText) {
+  return function(response) {
+    response.tell(successText);
+  };
+}
 
 function getVolume(callback) {
   var options = {
@@ -203,7 +217,7 @@ function setVolume(volumePercentage, response, successText) {
   sendCommand(data, response, successText);
 }
 
-function sendCommand(data, response, successText) {
+function sendCommand(data, response, successCallback) {
   var options = {
     hostname: RECEIVER_HOST,
     port: RECEIVER_PORT,
@@ -221,7 +235,7 @@ function sendCommand(data, response, successText) {
     res.on('data', function (chunk) {
       console.log('Response: ' + chunk);
     });
-    response.tell(successText);
+    successCallback(response);
   });
   req.on('error', function(e) {
     console.log('problem with request: ' + e.message);

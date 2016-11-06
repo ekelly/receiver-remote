@@ -10,13 +10,16 @@ SwitchScene switch to scene {Scene}
 SwitchScene switch scene to {Scene}
 SwitchScene scene {Scene}
 
+StartInput start {Input}
+StartInput turn on {Input}
+StartInput {Input}
+StartInput input {Input}
+
 ChangeInput change to {Input}
 ChangeInput change input to {Input}
 ChangeInput switch input to {Input}
-ChangeInput input {Input}
 ChangeInput switch to {Input}
 ChangeInput to switch to {Input}
-ChangeInput {Input}
 
 ChangeVolume volume {Volume}
 ChangeVolume change volume to {Volume}
