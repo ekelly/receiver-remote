@@ -11,9 +11,6 @@ SwitchScene switch scene to {Scene}
 SwitchScene scene {Scene}
 
 StartInput start {Input}
-StartInput turn on {Input}
-StartInput {Input}
-StartInput input {Input}
 
 ChangeInput change to {Input}
 ChangeInput change input to {Input}

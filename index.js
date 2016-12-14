@@ -1,12 +1,3 @@
-/**
-    Copyright 2014-2015 Amazon.com, Inc. or its affiliates. All Rights Reserved.
-
-    Licensed under the Apache License, Version 2.0 (the "License"). You may not use this file except in compliance with the License. A copy of the License is located at
-
-        http://aws.amazon.com/apache2.0/
-
-    or in the "license" file accompanying this file. This file is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
-*/
 
 var util = require('util');
 var http = require('http');
@@ -85,8 +76,8 @@ ReceiverRemote.prototype.eventHandlers.onSessionStarted = function (sessionStart
 
 ReceiverRemote.prototype.eventHandlers.onLaunch = function (launchRequest, session, response) {
     console.log("ReceiverRemote onLaunch requestId: " + launchRequest.requestId + ", sessionId: " + session.sessionId);
-    var speechOutput = "Welcome to the Alexa Skills Kit, you can say hello";
-    var repromptText = "You can say hello";
+    var speechOutput = "What would you like the receiver to do?";
+    var repromptText = "You can turn it on, change the volume, or switch inputs";
     response.ask(speechOutput, repromptText);
 };
 
@@ -147,10 +138,11 @@ ReceiverRemote.prototype.intentHandlers = {
         });
     },
     "AMAZON.HelpIntent": function (intent, session, response) {
-        response.tell("You can say adjust my power and control my input!",
-                      "You can say adjust my power and control my input!");
+        response.tell("You can turn it on and off, adjust the volume, and change input!");
+    },
+    "AMAZON.CancelIntent": function (intent, session, response) {
+        response.tell("");
     }
-
 };
 // Generates a response callback function for a successful action
 function respondSuccess(successText) {
@@ -248,7 +240,7 @@ function sendCommand(data, response, successCallback) {
 
 // Create the handler that responds to the Alexa Request.
 exports.handler = function (event, context) {
-  // Create an instance of the HelloWorld skill.
+  // Create an instance of the ReceiverRemote skill.
   var remote = new ReceiverRemote();
   remote.execute(event, context);
 };
