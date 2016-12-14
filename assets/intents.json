@@ -7,6 +7,15 @@
       "intent": "TurnOffIntent"
     },
     {
+      "intent": "StartInput",
+      "slots": [
+        {
+          "name": "Input",
+          "type": "INPUT"
+        }
+      ]
+    },
+    {
       "intent": "SwitchScene",
       "slots": [
         {
