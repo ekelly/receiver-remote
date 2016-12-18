@@ -38,11 +38,12 @@ const inputMapping = {
     "pc": "HDMI5",
     "computer": "HDMI5",
     "chromecast": "HDMI2",
+    "fire tv": "HDMI1",
     "wii u": "HDMI3",
     "wii": "HDMI4",
-    "bluray": "HDMI1",
-    "dvd": "HDMI1",
-    "movie": "HDMI1"
+    "bluray": "HDMI5",
+    "dvd": "HDMI5",
+    "movie": "HDMI5"
 };
 
 const powerMapping = {
@@ -56,15 +57,43 @@ function power(status, successCallback, errorCallback) {
   sendCommand(data, successCallback, errorCallback);
 }
 
+// Returns a string corresponding to the sanitized input, or false if it
+// can't be resolved
+function resolveInput(rawInput) {
+  var input = rawInput.toLowerCase();
+  var re = /h(\.*\s*)d(\.*\s*)m(\.*\s*)i/;
+  if (input.match(re)) {
+    if (input.indexOf(" one") != -1 || input.indexOf("1") != -1) {
+      return "HDMI1";
+    }
+    if (input.indexOf(" two") != -1 || input.indexOf("2") != -1) {
+      return "HDMI2";
+    }
+    if (input.indexOf(" three") != -1 || input.indexOf("3") != -1) {
+      return "HDMI3";
+    }
+    if (input.indexOf(" four") != -1 || input.indexOf("4") != -1) {
+      return "HDMI4";
+    }
+    if (input.indexOf(" five") != -1 || input.indexOf("5") != -1) {
+      return "HDMI5";
+    }
+  } else if(inputMapping.hasOwnProperty(input)) {
+    return inputMapping[input];
+  } else {
+    return false;
+  }
+}
+
 // Valid inputs are keys in the inputMapping. Any other
 // input will trigger the error callback with the error
 // "Unrecognized input"
 function switchInput(input, successCallback, errorCallback) {
-  var potentialInput = input.toLowerCase();
-  if (!inputMapping.hasOwnProperty(potentialInput)) {
+  var potentialInput = resolveInput(input);
+  if (!potentialInput) {
     errorCallback("Unrecognized input");
   } else {
-    var data = util.format(SWITCH_INPUT, inputMapping[potentialInput]);
+    var data = util.format(SWITCH_INPUT, potentialInput);
     sendCommand(data, successCallback, errorCallback);
   }
 }
