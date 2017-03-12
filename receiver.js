@@ -80,6 +80,8 @@ function resolveInput(rawInput) {
     }
   } else if(inputMapping.hasOwnProperty(input)) {
     return inputMapping[input];
+  } else if(input == "u" || input == "you") {
+    return inputMapping["wii u"];
   } else {
     return false;
   }
