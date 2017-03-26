@@ -3,10 +3,26 @@ var util = require('util');
 var http = require('http');
 
 /**
+ * Usage:
+ *
+ * Define the following environment variables:
+ * RECEIVER_HOST = host of the Yamaha AV Receiver (publicly visible)
+ * RECEIVER_PORT = Port to connect to the Receiver
+ *
+ * BLUETOOTH, PANDORA, HDMI1, HDMI2, HDMI3, HDMI4, HDMI5.
+ * The values in these environment variables should be invocation phrases
+ * that should trigger the receiver to switch to that input. For instance:
+ *
+ * HDMI1=wii u,wii you,we u,we you
+ *
+ */
+
+
+/**
  * Constants required for receiver control
  */
-const RECEIVER_HOST = "ekelly.duckdns.org";
-const RECEIVER_PORT = 426;
+const RECEIVER_HOST = process.env.RECEIVER_HOST;
+const RECEIVER_PORT = process.env.RECEIVER_PORT;
 const RECEIVER_PATH = "/YamahaRemoteControl/ctrl";
 
 const SWITCH_INPUT = "<YAMAHA_AV cmd=\"PUT\"><Main_Zone><Input><Input_Sel>%s" +
@@ -27,27 +43,32 @@ const POWER_DATA = "<YAMAHA_AV cmd=\"PUT\"><Main_Zone>" +
 const GET_STATUS = "<YAMAHA_AV cmd=\"GET\"><Main_Zone><Basic_Status>GetParam" +
                    "</Basic_Status></Main_Zone></YAMAHA_AV>\nName\n";
 
-const inputMapping = {
-    "bluetooth": "Bluetooth",
-    "pandora": "Pandora",
-    "hdmi1": "HDMI1",
-    "hdmi2": "HDMI2",
-    "hdmi3": "HDMI3",
-    "hdmi4": "HDMI4",
-    "hdmi5": "HDMI5",
-    "pc": "HDMI5",
-    "computer": "HDMI5",
-    "chromecast": "HDMI2",
-    "fire tv": "HDMI1",
-    "wii u": "HDMI3",
-    "we u": "HDMI3",
-    "we you": "HDMI3",
-    "wii": "HDMI4",
-    "we": "HDMI4",
-    "bluray": "HDMI5",
-    "dvd": "HDMI5",
-    "movie": "HDMI5"
-};
+// Define inputs
+
+var bluetooth = process.env.BLUETOOTH;
+var pandora = process.env.PANDORA;
+var hdmi1 = process.env.HDMI1
+var hdmi2 = process.env.HDMI2
+var hdmi3 = process.env.HDMI3
+var hdmi4 = process.env.HDMI4
+var hdmi5 = process.env.HDMI5
+
+var inputMapping = {};
+
+function fillInputMap(map, input, value) {
+  var invocations = input.split(",");
+  for (var i = 0, j = invocations.length; i < j; i++) {
+    map[invocations[i]] = value;
+  }
+}
+
+fillInputMap(inputMapping, bluetooth, "Bluetooth");
+fillInputMap(inputMapping, pandora, "Pandora");
+fillInputMap(inputMapping, hdmi1, "HDMI1");
+fillInputMap(inputMapping, hdmi2, "HDMI2");
+fillInputMap(inputMapping, hdmi3, "HDMI3");
+fillInputMap(inputMapping, hdmi4, "HDMI4");
+fillInputMap(inputMapping, hdmi5, "HDMI5");
 
 const powerMapping = {
   "on": "On",

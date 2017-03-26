@@ -74,7 +74,7 @@ ReceiverRemote.prototype.intentHandlers = {
     console.log("Input: " + input.value);
     receiver.switchInput(input.value,
                          respondSuccess(response, "Changing input to " + input.value),
-                         errorResponse(response));
+                         errorSwitchingInputResponse(response, input.value));
   },
   "ChangeVolume": function (intent, session, response) {
     var volume = intent.slots.Volume,
@@ -97,7 +97,7 @@ ReceiverRemote.prototype.intentHandlers = {
                         errorResponse(response));
   },
   "AMAZON.HelpIntent": function (intent, session, response) {
-    response.tell("You can turn it on and off, adjust the volume, and change input!");
+    response.tell("You can turn the receiver on and off, adjust the volume, and change input!");
   },
   "AMAZON.CancelIntent": function (intent, session, response) {
     response.tell("");
@@ -115,6 +115,12 @@ function respondSuccess(response, successText) {
 function errorResponse(response) {
   return function() {
     response.tell("Sorry, something went wrong");
+  }
+}
+
+function errorSwitchingInputResponse(response, input) {
+  return function() {
+    response.tell("Sorry, I couldn't find an input labeled " + input);
   }
 }
 
