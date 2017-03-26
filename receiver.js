@@ -40,7 +40,10 @@ const inputMapping = {
     "chromecast": "HDMI2",
     "fire tv": "HDMI1",
     "wii u": "HDMI3",
+    "we u": "HDMI3",
+    "we you": "HDMI3",
     "wii": "HDMI4",
+    "we": "HDMI4",
     "bluray": "HDMI5",
     "dvd": "HDMI5",
     "movie": "HDMI5"
